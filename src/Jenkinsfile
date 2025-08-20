@@ -1,24 +1,16 @@
 pipeline {
-    agent any
-    
-    stages {
-        stage('Build Docker images on Build Server') {
+     agent any
+     stages {
+        stage("Build") {
             steps {
-                script {
-                    // Execute Ansible playbook on Build Server
-                    sh "ssh ubuntu@172.31.42.119 'ansible-playbook /home/ubuntu/build.yaml'"                    // 'ansible-playbook /home/ubuntu/playbook.yaml'"
-                
-                    
-                    }
+                sh "sudo npm install"
+                sh "sudo npm run build"
             }
         }
-        
-        stage('Deploy Script on Deploy Server') {
+        stage("Deploy") {
             steps {
-                script {
-                    // Execute deployment playbook on Deploy Server
-                    sh "ssh ubuntu@172.31.42.119 'ansible-playbook /home/ubuntu/deploy.yaml'"
-                }
+                sh "sudo rm -rf /var/www/jenkins-react-app"
+                sh "sudo cp -r ${WORKSPACE}/build/ /var/www/jenkins-react-app/"
             }
         }
     }
