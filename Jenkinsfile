@@ -18,8 +18,8 @@ pipeline {
           stage('Deploy') {
                steps {
                     sh '''
-                    sudo rm -rf /var/www/html/testing-react/*
-                    sudo cp -r build/* /var/www/html/testing-react/
+                    sudo rm -rf /var/www/html/my-react-app/*
+                    sudo cp -r build/* /var/www/html/my-react-app/
                     '''
                }
           }
