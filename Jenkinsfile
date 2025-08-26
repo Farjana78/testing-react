@@ -1,26 +1,16 @@
 pipeline {
      agent any
-     
      stages {
-          stage('Checkout') {
+          stage("Build") {
                steps {
-                    git url: 'https://github.com/Farjana78/testing-react.git', branch: 'master'
+                    sh "npm install"
+                    sh "npm run build"
                }
           }
-          
-          stage('Build') {
-                steps {
-                     sh 'sudo npm install'
-                     sh 'sudo npm run build'
-                }
-          }
-          
-          stage('Deploy') {
+          stage{"Deploy") {
                steps {
-                    sh '''
-                    sudo rm -rf /var/www/html/my-react-app/*
-                    sudo cp -r build/* /var/www/html/my-react-app/
-                    '''
+                    sh "sudo rm -rf /var/www/react"
+                    sh "sudo cp -r ${WORKSPACE}/build/ /var/www/react/"
                }
           }
      }
